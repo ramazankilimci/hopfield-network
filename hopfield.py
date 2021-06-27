@@ -2,6 +2,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 # References
 # Used below post to print images in my environment.
 # https://stackoverflow.com/questions/56656777/userwarning-matplotlib-is-currently-using-agg-which-is-a-non-gui-backend-so
@@ -14,17 +15,23 @@ import numpy as np
 # You will see how complex that code when you check the repository.
 # https://github.com/zftan0709/Hopfield-Network
 
-# weight_calculation function returns weight for a single pattern.
+# weight_calculation function returns weights for a single pattern.
 # x_p should be an array.
 def weight_calculation(x_p):
+    # Assign N to pattern lengt.
     N = len(x_p)
+    # Initialize list to store calculated weights
     w_ij = []
     for i in range(N):
+        # Initialize w_temp list to store temporary weights.
+        # All of them will be appended to list "w_ij".
         w_temp = []
         for j in range(N):
+            # Calculate w_ij = (1/N) * x_i * x_j
             w = (1/N) * x_p[i] * x_p[j]
             w_temp.append(w)
         #print(w_temp)
+        # Append calculated values to list "w_ij".
         w_ij.append(w_temp)
     return w_ij
 
@@ -40,13 +47,19 @@ def sgn(x):
 # Predict function x_j array, w_ij array as input.
 # x_j is 1D image array. It will be given noisy images to predict the stored pattern.
 def predict(x_j, w_ij):
+    # Assign N to length of x_j. We will calculate all possible values.
     N = len(x_j)
+    # Initialize list for "x_i" values.
     x_i = []
     for i in range(N):
+        # Initialize x_temp for x_i calculations.
         x_temp = 0
+        # Calculate x_i for all possible values and sum them.
         for j in range(N):
             x_temp += w_ij[i][j] * x_j[j]
+        # Apply sgn() function. x_i = sgn(wij * x_j)
         x_temp = sgn(x_temp)
+        # Append values to initialized list "x_i".
         x_i.append(x_temp)
     return np.array(x_i)
 
